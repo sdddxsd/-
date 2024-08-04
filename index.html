@@ -28,7 +28,7 @@
         }
         textarea {
             width: 100%;
-            height: 100px;
+            height: 150px;
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
@@ -38,15 +38,20 @@
             display: block;
             width: 100%;
             padding: 10px;
-            background-color: #28a745;
-            color: #fff;
-            border: none;
+            background-color: #fff;
+            color: #000;
+            border: 2px solid #000;
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         button:hover {
-            background-color: #218838;
+            background-color: #000;
+            color: #fff;
+        }
+        .section {
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -54,14 +59,42 @@
     <div class="container">
         <h1>每日复盘打卡</h1>
         <form id="dailyCheckInForm">
-            <label for="summary">今日总结:</label>
-            <textarea id="summary" required></textarea>
+            <!-- OKR部分 -->
+            <div class="section">
+                <label for="okrObjective">目标 (O):</label>
+                <textarea id="okrObjective" required>今天的目标是: （描述今天的主要目标）</textarea>
+                
+                <label for="okrKeyResults">关键结果与完成情况 (KRs):</label>
+                <textarea id="okrKeyResults" required>
+1. 关键结果 1: （描述第一个关键结果及完成情况）
+2. 关键结果 2: （描述第二个关键结果及完成情况）
+3. 关键结果 3: （描述第三个关键结果及完成情况）
+                </textarea>
+            </div>
             
-            <label for="reflection">今日反思:</label>
-            <textarea id="reflection" required></textarea>
+            <!-- 关键事件 -->
+            <div class="section">
+                <label for="events">关键事件:</label>
+                <textarea id="events" required>今天发生的关键事件有: （描述今天影响工作的主要事件或障碍）</textarea>
+            </div>
             
-            <label for="improvement">改进措施:</label>
-            <textarea id="improvement" required></textarea>
+            <!-- 成功与不足 -->
+            <div class="section">
+                <label for="success">成功与不足:</label>
+                <textarea id="success" required>
+今天哪些方面做得好: （列出今天表现优秀的方面）
+哪些方面可以改进: （列出今天需要改进的地方）
+                </textarea>
+            </div>
+            
+            <!-- 改进计划 -->
+            <div class="section">
+                <label for="improvements">改进计划:</label>
+                <textarea id="improvements" required>
+明天需要改进的地方是: （描述明天打算改进的具体事项）
+明天的目标是: （列出明天的主要目标和任务）
+                </textarea>
+            </div>
             
             <button type="submit">提交</button>
         </form>
@@ -70,20 +103,23 @@
     <script>
         document.getElementById('dailyCheckInForm').addEventListener('submit', function(event) {
             event.preventDefault();
+
+            const okrObjective = document.getElementById('okrObjective').value;
+            const okrKeyResults = document.getElementById('okrKeyResults').value;
+            const events = document.getElementById('events').value;
+            const success = document.getElementById('success').value;
+            const improvements = document.getElementById('improvements').value;
             
-            const summary = document.getElementById('summary').value;
-            const reflection = document.getElementById('reflection').value;
-            const improvement = document.getElementById('improvement').value;
+            const dataToSubmit = `
+                目标 (O): ${okrObjective}
+                关键结果与完成情况 (KRs): ${okrKeyResults}
+                
+                关键事件: ${events}
+                成功与不足: ${success}
+                改进计划: ${improvements}
+            `;
             
-            const data = `今日总结: ${summary}\n今日反思: ${reflection}\n改进措施: ${improvement}`;
-            
-            const shortcutURL = `shortcuts://run-shortcut?name=%E4%BB%8A%E6%97%A5%E5%A4%8D%E7%9B%98&input=text&text=${encodeURIComponent(data)}`;
-            
-            // For debugging: Log the URL to the console
-            console.log('Generated URL:', shortcutURL);
-            
-            // For debugging: Display the URL in an alert box
-            alert('Generated URL: ' + shortcutURL);
+            const shortcutURL = `shortcuts://run-shortcut?name=%E4%BB%8A%E6%97%A5%E5%A4%8D%E7%9B%98&input=text&text=${encodeURIComponent(dataToSubmit)}`;
             
             window.location.href = shortcutURL;
         });
