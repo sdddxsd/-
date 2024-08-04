@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日复盘打卡</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            resize: none;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>每日复盘打卡</h1>
+        <form id="dailyCheckInForm">
+            <label for="summary">今日总结:</label>
+            <textarea id="summary" required></textarea>
+            
+            <label for="reflection">今日反思:</label>
+            <textarea id="reflection" required></textarea>
+            
+            <label for="improvement">改进措施:</label>
+            <textarea id="improvement" required></textarea>
+            
+            <button type="submit">提交</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('dailyCheckInForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const summary = document.getElementById('summary').value;
+            const reflection = document.getElementById('reflection').value;
+            const improvement = document.getElementById('improvement').value;
+            
+            const data = `今日总结: ${summary}\n今日反思: ${reflection}\n改进措施: ${improvement}`;
+            
+            const shortcutURL = `shortcuts://run-shortcut?name=%E4%BB%8A%E6%97%A5%E5%A4%8D%E7%9B%98&input=text&text=${encodeURIComponent(data)}`;
+            
+            // For debugging: Log the URL to the console
+            console.log('Generated URL:', shortcutURL);
+            
+            // For debugging: Display the URL in an alert box
+            alert('Generated URL: ' + shortcutURL);
+            
+            window.location.href = shortcutURL;
+        });
+    </script>
+</body>
+</html>
